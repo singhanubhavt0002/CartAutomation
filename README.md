@@ -1,16 +1,5 @@
-# Prerequisities
-JDK 11
-Docker
+# Cart Offer Feature - Automated Test Suite
 
-# How bring the mockservice up
-cd mockserver  
-docker compose up  
-the mocke server will start at port 1080
-
-# How bring the service up
-./mvnw clean install -DskipTests  
-java -jar target/simple-springboot-app-0.0.1-SNAPSHOT.jar  
-The server will start at port 9001
-
-# How to run the tests
-./mvnw test  
+## Overview
+This project automates end-to-end test cases for the **Cart Offer** feature.  
+It uses a **mockserver** to simulate offer responses and a pre-configured server to apply offers.  
