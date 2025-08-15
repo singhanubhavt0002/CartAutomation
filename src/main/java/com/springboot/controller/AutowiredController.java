@@ -47,7 +47,10 @@ public class AutowiredController {
 			} else {
 				cartVal = (int) (cartVal - cartVal * gotOffer.getOffer_value()*(0.01));
 			}
-
+            if(cartVal<0)
+            {
+                cartVal=0;
+            }
 		}
 		return new ApplyOfferResponse(cartVal);
 	}
