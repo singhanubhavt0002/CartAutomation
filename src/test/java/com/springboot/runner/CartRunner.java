@@ -14,17 +14,26 @@ import java.net.URL;
 public class CartRunner {
 
     public boolean addOffer(OfferRequest offerRequest) throws Exception {
+
+        //build http request Defines the endpoint URL. Opens a connection to the API using HttpURLConnection.
         String urlString = "http://localhost:9001/api/v1/offer";
         URL url = new URL(urlString);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
+
+        //tells Java we will send a request body (POST)
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json");
+
+//Uses Jackson’s ObjectMapper to serialize Java object → JSON string.
         ObjectMapper mapper = new ObjectMapper();
         String POST_PARAMS = mapper.writeValueAsString(offerRequest);
+
+        //Writes the JSON request body into the connection’s output stream. Sends it to the server.
         OutputStream os = con.getOutputStream();
         os.write(POST_PARAMS.getBytes());
         os.flush();
         os.close();
+
         int responseCode = con.getResponseCode();
         System.out.println("POST Response Code :: " + responseCode);
 
@@ -47,14 +56,17 @@ public class CartRunner {
 
     public ApplyOfferResponse applyOffer(int cartValue, int userId, int restaurantId) throws Exception {
 
-        // Prepare POST data
+        // build http request
         String urlString = "http://localhost:9001/api/v1/cart/apply_offer";
         URL url = new URL(urlString);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setDoOutput(true);
         con.setRequestProperty("Content-Type", "application/json");
 
+        //create json payload
         String POST_PARAMS = "{\"cart_value\":" + cartValue + ",\"user_id\":" + userId + ",\"restaurant_id\":" + restaurantId + "}";
+
+        //Sends the JSON payload through HTTP request body.
         OutputStream os = con.getOutputStream();
         os.write(POST_PARAMS.getBytes());
         os.flush();
@@ -64,6 +76,7 @@ public class CartRunner {
         System.out.println("POST Response Code :: " + responseCode);
 
         if (responseCode == HttpURLConnection.HTTP_OK) {
+            //Reads response body line by line using BufferedReader. Stores it into a StringBuffer.
             BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
             StringBuffer response = new StringBuffer();
